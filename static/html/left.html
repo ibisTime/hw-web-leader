@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0">
+    <title>菜单列表</title>
+    <!-- css样式 -->
+    <link rel="stylesheet" href="../css/global.css"/>
+    <link rel="stylesheet" href="../css/left.css"/>
+    <link rel="stylesheet" href="../css/toastr.css"/>
+<!-- js脚本 -->
+</head>
+<body class="left-body">
+	<div class="left-top"><span></span>功能导航</div>
+    <dl class="left-menu">
+    	<dd>
+    		<div class="title">
+    			<span><img src="/static/images/leftico01.png"></span>活动管理
+    		</div>
+    	</dd>
+		<ul class="menuson">
+			<li class="active"><cite></cite><a href="activity/activity.html" target="rightFrame">活动管理</a><i></i></li>
+			<li><cite></cite><a href="activity/activityOrder.html" target="rightFrame">报名管理</a><i></i></li>
+		</ul>
+    	<dd>
+    		<div class="title"><span><img src="/static/images/leftico01.png"></span>账户管理</div>
+    	</dd>
+    	<ul style="display: none;" class="menuson">
+    		<li><cite></cite><a href="user/activityLeader_account.html" target="rightFrame">我的账户</a><i></i></li>
+    	</ul>
+    	<dd>
+    </dl>
+    
+    <script src="../js/config.js"></script>
+    <script src="../js/lib/jquery-1.10.2.js"></script>
+    <script src="../js/app/com/common-ajax.js"></script>
+    <script src="../js/app/com/left.js"></script>
+    <script src="../js/lib/jquery.slimscroll.js"></script>
+    <script src="../js/lib/toastr.js"></script>
+</body>
+</html>
