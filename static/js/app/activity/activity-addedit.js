@@ -43,7 +43,7 @@ $(function() {
         type: 'citySelect',
         provinceField:'placeDestProvince',
         cityField:'placeDestCity',
-        area: false,
+        noArea: true,
         required: true,
     }, {
         field: 'placeDest',
@@ -54,7 +54,7 @@ $(function() {
         type: 'citySelect',
         provinceField:'placeAsseProvince',
         cityField:'placeAsseCity',
-        area: false,
+        noArea: true,
         required: true,
     }, {
         field: 'placeAsse',
@@ -83,33 +83,15 @@ $(function() {
     }, {
         field: 'indexQd',
         title: '强度系数',
-        formatter: function(v, data){
-        	var start = ''
-        	for (var i=1; i<=v; i++) {
-        		start+='<i class="star"></i>'
-        	}
-        	return '<p class="starWrap" id="indexQd">'+start+'</p>';
-        }
+        type: 'start',
     }, {
         field: 'indexNd',
         title: '难度系数',
-        formatter: function(v, data){
-        	var start = ''
-        	for (var i=1; i<=v; i++) {
-        		start+='<i class="star"></i>'
-        	}
-        	return '<p class="starWrap" id="indexQd">'+start+'</p>';
-        }
+        type: 'start',
     }, {
         field: 'indexFj',
         title: '风险系数',
-        formatter: function(v, data){
-        	var start = ''
-        	for (var i=1; i<=v; i++) {
-        		start+='<i class="star"></i>'
-        	}
-        	return '<p class="starWrap" id="indexQd">'+start+'</p>';
-        }
+        type: 'start',
     }, {
         field: 'description',
         title: '活动介绍',

@@ -1161,7 +1161,17 @@ function buildDetail(options) {
             html = '<input type="hidden" id="' + item.field + '" name="' + item.field + '"/>' + html;
         } else if (item.readonly) {
             if (item.type == "citySelect") {
-                html += '<li class="clearfix" style="display:inline-block;"><label>' + item.title + ':</label>' + '<span id="province" name="province" style="display: inline-block;"></span>' + '<span id="city" name="city" style="display: inline-block;padding: 0 8px;"></span>' + '<span id="area" name="area" style="display: inline-block;"></span></li>'
+            	//只有省市 没有区
+            	if(item.noArea){
+            		html += '<li class="clearfix" style="display:inline-block;"><label>' + item.title + ':</label>' 
+                	+ '<span id="'+item.provinceField+'" name="'+item.provinceField+'" style="display: inline-block;">'+item.provinceField+'</span>' + 
+                		'<span id="'+item.cityField+'" name="'+item.cityField+'" style="display: inline-block;padding: 0 8px;">'+item.cityField+'</span></li>'
+            	}else{
+            		html += '<li class="clearfix" style="display:inline-block;"><label>' + item.title + ':</label>' 
+                	+ '<span id="province" name="province" style="display: inline-block;"></span>' + 
+                		'<span id="city" name="city" style="display: inline-block;padding: 0 8px;"></span>' + 
+                		'<span id="area" name="area" style="display: inline-block;"></span></li>'
+            	}
             } else if (item.type == 'o2m') {
                 html += '<li class="clearfix" type="' + (item.amount ? 'amount' : '') +
                     '" style="' + (item.width ? ('width: ' + item.width + ';display:inline-block;') : '') +
@@ -1224,7 +1234,7 @@ function buildDetail(options) {
             } else if (item.type == 'citySelect') {
                 if (item.onlyProvince) {
                     html += '<div id="city-group" data-only-prov="' + item.onlyProvince + '"><select id="province" name="province" class="control-def prov"><option value="">请选择</option></select></div></li>';
-                } else if(!item.area){
+                } else if(item.noArea){
                     html += '<div class="city-group-spec" ><select id="' + item.provinceField + '" name="' + item.provinceField + '" class="control-def prov"><option value="">请选择</option></select>' 
                     	+ '<select id="' + item.cityField + '" name="' + item.cityField + '" class="control-def city"><option value="">请选择</option></select></div></li>';
                 } else {
@@ -1264,7 +1274,25 @@ function buildDetail(options) {
                 html += '<input id="' + item.field + '" name="' + item.field + '" class="lay-input"/></li>';
             } else if (item.type == "o2m") {
                 html += '<div id="' + item.field + '" style="display: inline-block;"></div>';
-            } else {
+                
+                //显示星级
+            } else if(item.type=="start"){
+            	html += '<p class="starWrap" id="'+item.field+'" data-score="1" >'
+            		+'<i class="star active" data-score="1" ></i>'
+            		+'<i class="star" data-score="2"></i>'
+            		+'<i class="star" data-score="3"></i>'
+            		+'<i class="star" data-score="4"></i>'
+            		+'<i class="star" data-score="5"></i></p>';
+            		
+            	//星星点击
+			    $("#jsForm").on('click',"#"+item.field+" .star",function(){
+		    		var _this = $(this);
+		    		var _starWrap = _this.parent('.starWrap');
+		    		var _thisIndex = _this.index()+1
+		    		
+		    		startActive(_starWrap,_thisIndex);
+		    	})
+            }else {
                 html += '<input id="' + item.field + '" name="' + item.field + '" class="control-def" ' + (item.placeholder ?
                     ('placeholder="' + item.placeholder + '"') :
                     '') + '/></li>';
@@ -1355,6 +1383,9 @@ function buildDetail(options) {
                 }
                 if (item.type == 'select' && item.passValue) {
                     data[item.field] = $('#' + item.field).find('option:selected').html();
+                }
+                if(item.type == 'start'){
+                	data[item.field] = $('#' + item.field).attr("data-score")
                 }
             }
             data['id'] = data['code'];
@@ -1562,8 +1593,7 @@ function buildDetail(options) {
             });
         }
     }
-
-    var _cityGroup = $("#city-group");
+	var _cityGroup = $("#city-group");
     _cityGroup.citySelect && _cityGroup.citySelect({
         required: false
     }, _cityGroup.attr("data-only-prov"));
@@ -1574,6 +1604,7 @@ function buildDetail(options) {
             required: false
         }, _this.attr("data-only-prov"));
     });
+	
     for (var i = 0, len = fields.length; i < len; i++) {
         var item = fields[i];
         (function(j) {
@@ -1833,6 +1864,14 @@ function buildDetail(options) {
                         $('#province').html(data.province);
                         data.city && $('#city').html(data.city);
                         data.area && $('#area').html(data.area);
+                    }else if(item.type == 'datetime' || item.type == 'date'){
+                    	//两个日期框
+                    	if(item.twoDate){
+                    		$('#' + item.field1).html(displayValue);
+                    		$('#' + item.field2).html(displayValue);
+                    	}else{
+                    		$('#' + item.field).html(displayValue);
+                    	}
                     } else {
                         if (displayValue) {
                             $('#' + item.field).html(((item.amount || item.amount1) ?
@@ -1927,13 +1966,13 @@ function buildDetail(options) {
                         $('#' + item.field).val(displayValue);
                     } else if (item.type == 'citySelect') {
                         
-                        if(!item.area){
-                        	console.log(data[item.provinceField])
+                        //只选省市，不选区
+                        if(item.noArea){
                         	$('#' + item.provinceField).val(data[item.provinceField]);
                         	$('#' + item.provinceField).trigger('change');
                         	$('#' + item.cityField).val(data[item.cityField]);
-                        	$('#' + item.cityField).trigger('change');
-                        	
+                        
+                        //只选省
                 		} else if (item.onlyProvince) {
                         	$('#province').val(data.province);
                         	$('#province').trigger('change');
@@ -1964,10 +2003,28 @@ function buildDetail(options) {
                             data: displayValue || []
                         });
                     } else if (item.type == 'datetime' || item.type == 'date') {
-                        $('#' + item.field).val((item.type == 'datetime' ? dateTimeFormat : dateFormat)(displayValue));
+                    	//两个日期框
+                    	if(item.twoDate){
+                    		$('#' + item.field1).val((item.type == 'datetime' ? dateTimeFormat : dateFormatData)(data[item.field1]));
+                    		$('#' + item.field2).val((item.type == 'datetime' ? dateTimeFormat : dateFormatData)(data[item.field2]));
+                    	}else{
+                    		$('#' + item.field).val((item.type == 'datetime' ? dateTimeFormat : dateFormatData)(displayValue));
+                    	}
+                        
+                        // 星级选中
+                    } else if(item.type=="start"){
+                    	startActive($('#' + item.field),displayValue)
                     } else {
                         if (item.formatter) {
-                            $('#' + item.field).val(item.formatter(displayValue, data));
+                        	if(item.type=='select'){
+                        		if(item.pageCode || item.listCode || item.detailCode){
+                        			$('#' + item.field).val(item.formatter(displayValue, data));
+                        		}else{
+                        			$('#' + item.field).val(displayValue)
+                        		}
+                        	}else{
+                        		$('#' + item.field).val(item.formatter(displayValue, data));
+                        	}
                         } else {
                             $('#' + item.field).val((item.amount || item.amount1) ?
                                 moneyFormat(displayValue) :
@@ -2035,8 +2092,9 @@ function buildDetail(options) {
         $('.form-title').hide();
         $('.btn').hide();
     }
-
+	
     chosen();
+    
 }
 
 $(document).ajaxStart(function() {
@@ -3781,4 +3839,18 @@ function updateListStart(start) {
     var params = start;
     searchs[pathName] = params;
     sessionStorage.setItem('listStarts', JSON.stringify(searchs));
+}
+//星级选中
+function startActive(starWrap,thisIndex){
+	var _starWrap = starWrap,
+		_thisIndex = thisIndex-1,
+		score = 1;
+	_starWrap.children('.star').removeClass("active")	
+	_starWrap.children('.star').each(function(i, d){
+		if(i<=_thisIndex){
+			score = i+1;
+			$(this).addClass('active')
+		}
+	})
+	_starWrap.attr('data-score', score);
 }

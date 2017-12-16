@@ -1315,3 +1315,22 @@ svg circle:hover {
     background-size: 20px;
     vertical-align: middle;
 }
+
+.starWrap{
+    display: block;
+    overflow: hidden;
+}
+.starWrap .star{
+    display: block;
+    width: 15px;
+    height: 33px;
+    float: left;
+    margin-right: 5px;
+    background-image: url('/static/images/start.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 15px;
+}
+.starWrap .star.active{
+	background-image: url('/static/images/startOn.png') !important;
+}

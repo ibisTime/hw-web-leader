@@ -30,6 +30,10 @@
     var prov_obj = box_obj.find(".prov");
     var city_obj = box_obj.find(".city");
     var dist_obj = box_obj.find(".dist");
+	settings.prov = prov_obj.val()?prov_obj.val():settings.prov;
+	settings.city = city_obj.val()?city_obj.val():settings.city;
+	settings.dist = dist_obj.val()?dist_obj.val():settings.dist;
+    	
     var prov_val = settings.prov;
     var city_val = settings.city;
     var dist_val = settings.dist;
@@ -82,24 +86,27 @@
 
     function getCity(val) { //获取市数据
 
-      var temp_html = select_prehtml;
+		var temp_html = select_prehtml;
+		
+		if(!$provinceXmlElements){
+			$provinceXmlElements = $(docXml).find("province");
+		}
+		
+		$provinceXmlElements.each(function(i, d) {
 
-      $provinceXmlElements.each(function(i, d) {
+        	var $provinceXmlValue = $(d).attr("name"); //遍历的省
 
-        var $provinceXmlValue = $(d).attr("name"); //遍历的省
+        	if (val == $provinceXmlValue) {
 
-        if (val == $provinceXmlValue) {
+        		$cityXmlELements = $(d).find("city"); //选中的省下面的市
 
-          $cityXmlELements = $(d).find("city"); //选中的省下面的市
+        		$cityXmlELements.each(function(index, domEle) {
 
-          $cityXmlELements.each(function(index, domEle) {
+            		var $cityXmlValue = $(domEle).attr("name");
+        			temp_html += "<option value='" + $cityXmlValue + "'>" + $cityXmlValue + "</option>";
 
-            var $cityXmlValue = $(domEle).attr("name");
-
-            temp_html += "<option value='" + $cityXmlValue + "'>" + $cityXmlValue + "</option>";
-
-          });
-        }
+          		});
+        	}
       });
 
       city_obj.html(temp_html);

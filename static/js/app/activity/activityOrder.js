@@ -10,11 +10,18 @@ $(function() {
         title: '订单编号',
         search: true
     }, {
+        field: 'actName',
+        title: '活动名称',
+        search: true,
+        formatter: function(v, data) {
+            return data.activity.name;
+        },
+    }, {
         field: 'applyUser',
         title: '下单用户',
         search: true,
         formatter: function(v, data) {
-            return data.user?data.user.mobile:v;
+            return data.user?data.user.nickname+"("+data.user.mobile+")":v;
         },
         type: 'select',
         search: true,
@@ -25,23 +32,8 @@ $(function() {
             companyCode: OSS.company
         },
         keyName: 'userId',
-        valueName: 'mobile',
+        valueName: "{{nickname.DATA}}-{{mobile.DATA}}",
         searchName: 'mobile',
-    }, {
-        field: 'payType',
-        title: '买单方式',
-        key: 'pay_type',
-        formatter: Dict.getNameForList("pay_type"),
-        type: 'select',
-        search: true,
-    }, {
-        field: 'totalAmount',
-        title: '总价',
-        formatter: moneyFormat
-    }, {
-        field: 'totalYunfei',
-        title: '运费',
-        formatter: moneyFormat
     }, {
         field: 'status',
         title: '订单状态',
@@ -51,22 +43,12 @@ $(function() {
         search: true,
     }, {
         field: 'applyDatetime',
-        title: '下单时间',
+        title: '报名时间',
         formatter: dateTimeFormat,
         field1: 'dateStart',
-        title1: '下单时间',
+        title1: '报名时间',
         type: 'date',
         field2: 'dateEnd',
-        twoDate: true,
-        search: true,
-    }, {
-        field: "payDatetime",
-        title: "支付时间",
-        formatter: dateTimeFormat,
-        field1: 'payDatetimeStart',
-        title1: '支付时间',
-        type: 'date',
-        field2: 'payDatetimeEnd',
         twoDate: true,
         search: true,
     }, {
@@ -80,23 +62,21 @@ $(function() {
         	leaderUser: getUserId(),
             companyCode: OSS.company
         },
-        beforeDetail: function(){
-        	var selRecords = $('#tableList').bootstrapTable('getSelections');
-        	
-		    var orderData = selRecords[0].orderData?"1":"";
-		    var rorderList = selRecords[0].rorderList?"1":"";
-		    
-        	window.location.href = "activityOrder_addedit.html?code=" + selRecords[0].code+"&orderData="+orderData+"&rorderList="+rorderList;
-        }
     });
-    //流水查询
-    $("#ledgerBtn").click(function() {
+    
+//  $('.tools .toolbar').html('<li style="display:block;" id="detailBtn"><span><img src="/static/images/t01.png"></span>详情</li>');
+    
+    //详情
+    $("#detailBtn").click(function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
             toastr.warning("请选择记录");
             return;
         };
-        window.location.href = "order_ledger.html?refNo=" + selRecords[0].code;
+        var orderData = selRecords[0].orderData?"1":"";
+	    var rorderList = selRecords[0].rorderList?"1":"";
+	    
+    	window.location.href = "activityOrder_addedit.html?code=" + selRecords[0].code+"&orderData="+orderData+"&rorderList="+rorderList;
     });
 
 });

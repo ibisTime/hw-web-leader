@@ -133,6 +133,10 @@ jQuery.validator.addMethod("times", function(value, element) {
     return returnVal;
 }, "必须是发布赏金的整数倍");
 
+jQuery.validator.addMethod("sms", function(value, element) {
+    var tm = /^\d{4}$/;
+    return this.optional(element) || (tm.test(value));
+}, "验证码格式错误");
 //身份证
 jQuery.validator.addMethod("idCard", function(value, element) {
     var isIDCard1 = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$/; //(15位)

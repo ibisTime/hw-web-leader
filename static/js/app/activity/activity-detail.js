@@ -27,8 +27,20 @@ $(function() {
         title: '报名截止时间',
         formatter: dateFormatData,
     },{
+        field: 'placeDestProvince',
+        title: '目的地所在市',
+        formatter: function(v, data){
+        	return data.placeDestProvince + " "+ data.placeDestCity
+        },
+    }, {
         field: 'placeDest',
         title: '目的地'
+    }, {
+        field: 'placeAsseProvince',
+        title: '集合地所在市',
+        formatter: function(v, data){
+        	return data.placeAsseProvince + " "+ data.placeAsseCity
+        },
     }, {
         field: 'placeAsse',
         title: '集合地'
@@ -105,9 +117,6 @@ $(function() {
         title: '装备建议',
         type: 'textarea',
         normalArea: true
-    }, {
-        field: 'userId',
-        title: '领队',
     }, {
         field: 'status',
         title: '状态',
