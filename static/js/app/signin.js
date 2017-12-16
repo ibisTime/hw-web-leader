@@ -198,6 +198,10 @@ $(function() {
 	        });
         }
     });
+    
+    $('#goLoginBtn').on('click', function() {
+    	mySwiper.slidePrev();
+    });
 	
 
 });

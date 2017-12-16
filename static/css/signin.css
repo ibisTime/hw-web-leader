@@ -266,15 +266,18 @@ body {
 }
 
 .registerForm .login-box {
-	width: 730px;
-	height: 550px;
+	width: 750px;
+	height: 580px;
+	background-size: 100% 100% !important;
+	
 }
 
 .registerForm .login-box .ul {
 	float: left;
 	margin-top: 88px;
-	padding-right: 30px;
+	padding-right: 50px;
 	margin-left: 240px;
+	padding-bottom: 20px;
 }
 
 .registerForm .login-box .ul .li {
@@ -288,6 +291,7 @@ body {
 
 .registerForm .login-input {
 	width: 290px;
+	color: #484848;
 }
 
 .registerForm .login-btn-sms {
