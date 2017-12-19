@@ -47,7 +47,7 @@ $(function() {
     });
 
     $('.tools .toolbar').html('<li style="display:block;" id="ledgerBtn"><span><img src="/static/images/t01.png"></span>查看明细</li>'
-    				+'<li style="display:block;" id="goBackBtn"><span><img src="/static/images/t01.png"></span>转账</li>');
+    				+'<li style="display:block;" id="transferAccountsBtn"><span><img src="/static/images/t01.png"></span>转账</li>');
 //  				+'<li style="display:block;" id="goBackBtn"><span><img src="/static/images/t01.png"></span>返回</li>');
 	
 	//查看明细
@@ -60,8 +60,8 @@ $(function() {
         window.location.href = "../finance/ledger.html?&a=1&accountCode=" + selRecords[0].accountNumber;
     });
     
-    //设置置顶
-	$("#setLocationBtn").on("click",function(){
+    //转账
+	$("#transferAccountsBtn").on("click",function(){
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
             toastr.info("请选择记录");
@@ -89,7 +89,7 @@ $(function() {
                 required: true
 		    }, {
 		        field: 'orderNo',
-		        title: '序号',
+		        title: '备注',
                 required: true
 		    }],
             buttons: [{

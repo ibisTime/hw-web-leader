@@ -1334,3 +1334,19 @@ svg circle:hover {
 .starWrap .star.active{
 	background-image: url('/static/images/startOn.png') !important;
 }
+.form-info li .control-smsCaptcha{
+	width: 200px;
+}
+.pop-form .form-info li .smsBtn{
+	width: 100px;
+	height: 32px;
+	margin-left: 20px;
+    margin-top: 0;
+    margin-right: 0;
+}
+.pop-form .form-info .smsCaptchaLi span.error{
+    right: 160px;
+}
+.pop-form .form-info li .smsBtn[disabled]{
+	background-color: #d4d4d4;
+}

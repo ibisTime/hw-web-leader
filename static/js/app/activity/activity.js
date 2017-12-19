@@ -63,7 +63,8 @@ $(function() {
         columns: columns,
         pageCode: '808705',
         searchParams: {
-            companyCode: OSS.company
+            companyCode: OSS.company,
+            userId: getUserId()
         },
     });
     

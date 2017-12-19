@@ -128,9 +128,11 @@ $(function() {
 	            	kind:'OL'
 	            },
 				sync: true
-	        }).done(function(data) {
+	        }).then(function(data) {
 	        	$('#smsBtn').prop('disabled', false);
                 count($('#smsBtn'), 60);
+	        },function(){
+	        	$('#smsBtn').prop('disabled', false);
 	        })
         }
     });

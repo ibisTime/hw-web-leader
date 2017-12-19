@@ -1193,7 +1193,8 @@ function buildDetail(options) {
                     (item.type + 'Cls' || '') + '"></span></li>';
             }
         } else {
-            html += '<li class="clearfix" type="' + ((item.amount || item.amount1) ? 'amount' : '') +
+        	var smsCaptcha = item.type=='smsCaptcha'?'smsCaptchaLi':'';
+            html += '<li class="clearfix '+smsCaptcha+'"  type="' + ((item.amount || item.amount1) ? 'amount' : '') +
                 '" style="' + (item.width ? ('width: ' + item.width + ';display:inline-block;') : '') +
                 (item.hidden ? 'display: none;' : '') + '"><label>' + (item.help ?
                     '<i data-help="' + item.help + '" class="zmdi zmdi-help-outline field-help"></i>' : '') +
@@ -1292,6 +1293,9 @@ function buildDetail(options) {
 		    		
 		    		startActive(_starWrap,_thisIndex);
 		    	})
+            }else if(item.type=='smsCaptcha'){
+            	html += '<input id="' + item.field + '" name="' + item.field + '" class="control-def control-smsCaptcha ">'
+            		+'<input id="smsBtn" type="button" class="btn smsBtn" value="获取验证码" data-bizType="' + item.bizType + '" />';
             }else {
                 html += '<input id="' + item.field + '" name="' + item.field + '" class="control-def" ' + (item.placeholder ?
                     ('placeholder="' + item.placeholder + '"') :
@@ -1344,6 +1348,29 @@ function buildDetail(options) {
     for (var i = 0, len = btnHandlers.length; i < len; i++) {
         $('#' + btnHandlers[i].id).on('click', btnHandlers[i].handler);
     }
+    
+    $('#smsBtn').on('click', function() {
+    	var bizType = $(this).attr("data-bizType")
+        if (!$('#mobile').val()) {
+            toastr.info('请输入手机号');
+        } else {
+            $('#smsBtn').prop('disabled', true);
+            reqApi({
+	            code: '805950',
+	            json: {
+	            	bizType:bizType,
+	            	mobile:$('#mobile').val(),
+	            	kind:'OL'
+	            },
+				sync: true
+	        }).then(function(data) {
+	        	$('#smsBtn').prop('disabled', false);
+                count($('#smsBtn'), 60);
+	        },function(){
+	        	$('#smsBtn').prop('disabled', false);
+	        })
+        }
+    });
 
     $('#backBtn').click(function() {
         goBack();
@@ -3853,4 +3880,16 @@ function startActive(starWrap,thisIndex){
 		}
 	})
 	_starWrap.attr('data-score', score);
+}
+function count(el, second) {
+    el.prop('disabled', true);
+    var timer = setInterval(function() {
+        second--;
+        el.val('重新发送(' + second + ')');
+        if (second == 0) {
+            el.val('获取验证码');
+            el.prop('disabled', false);
+            clearInterval(timer);
+        }
+    }, 1000);
 }
