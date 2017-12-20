@@ -1996,8 +1996,9 @@ function buildDetail(options) {
                         //只选省市，不选区
                         if(item.noArea){
                         	$('#' + item.provinceField).val(data[item.provinceField]);
-                        	$('#' + item.provinceField).trigger('change');
+                    		$('#' + item.provinceField).trigger('change');
                         	$('#' + item.cityField).val(data[item.cityField]);
+                    		$('#' + item.cityField).trigger('change');
                         
                         //只选省
                 		} else if (item.onlyProvince) {

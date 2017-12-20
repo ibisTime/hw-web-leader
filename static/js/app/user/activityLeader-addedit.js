@@ -69,7 +69,8 @@ $(function() {
         },
         addCode:'805047',
         detailCode: '805121',
-        view: true
+        view: true,
+        buttons:[]
     });
 	
 	$("#jsForm").on("click", "#bindCUserBtn", function(){

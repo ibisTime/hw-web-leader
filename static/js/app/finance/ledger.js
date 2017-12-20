@@ -19,8 +19,8 @@ $(function() {
         search: true
     }
     var refNoField = {
-        field: 'refNo',
-        title: '关联单号',
+        field: 'bizNote',
+        title: '备注',
         // search: true
     }
 

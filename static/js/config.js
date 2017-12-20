@@ -6,7 +6,7 @@ OSS.system = 'CD-CHW000015';
 // companyCode
 OSS.company = 'CD-CHW000015';
 // system name
-OSS.systemName = '户外电商管理平台';
+OSS.systemName = '任贝电商管理平台';
 // company name
 OSS.companyName = '杭州任贝网络科技有限公司';
 // menuCode
