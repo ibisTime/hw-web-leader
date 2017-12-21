@@ -1,8 +1,8 @@
 $('title', window.parent.document).html(OSS.systemName);
 $(function() {
+	var timestamp = new Date().getTime()
+	
     if (!sessionStorage.getItem('token')) {
-    	
-		var timestamp = new Date().getTime()
         location.href = 'signin.html?timestamp=' + timestamp;
         return;
     }

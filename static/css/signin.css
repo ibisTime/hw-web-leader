@@ -15,7 +15,12 @@ body {
 	min-width: 980px;
 }
 
-
+.fl{
+	float: left;
+}
+.fr{
+	float: right;
+}
 /*cloud*/
 
 .cloud {
@@ -252,6 +257,7 @@ body {
 
 .registerForm .login-input-s {
 	width: 160px;
+	color: #484848;
 }
 
 .registerForm .login-box {
@@ -332,12 +338,15 @@ body {
 
 @media screen and (max-width: 1450px) {
 	.system-logo {
-		margin-top: 50px!important;
-		height: 50px!important;
+		margin-top: 60px!important;
+		height: 80px!important;
 		background-size: contain;
 	}
 	.registerForm{
 		margin-top: 70px !important;
+	}
+	.finPwdForm{
+		margin-top: 140px !important;
 	}
 }
 @media screen and (min-width: 2050px) {
@@ -349,4 +358,41 @@ body {
 	.registerForm{
 		margin-top: 20px !important;
 	}
+	.finPwdForm{
+		margin-top: 120px !important;
+	}
+}
+.login-btnWrap .text{
+	font-size: 13px;
+	color: #999;
+	cursor: pointer;
+	margin-top: 10px;
+}
+.login-btnWrap .text:hover{
+	color: #F32043;
+	text-decoration: underline;
+}
+.finPwdForm .login-box{
+	height: 365px;
+}
+.finPwdForm .login-box .ul{
+	margin-left: 250px;
+	margin-top: 30px;
+}
+.finPwdForm .login-box .ul .li .title{
+	font-size: 22px;
+	text-align: left;
+	padding-left: 60px;
+	font-weight: normal;
+	color: #b7883e;
+	margin-bottom: 10px;
+}
+.finPwdForm .login-box .ul .li .text{
+	width: 110px;
+}
+.finPwdForm .btnWrap{
+	margin-left: 130px;
+}
+.registerForm .ul .li.smsWrap span.error{
+	right: 135px;
 }

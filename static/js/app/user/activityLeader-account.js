@@ -49,7 +49,8 @@ $(function() {
 	        columns: columns,
 	        pageCode: '802503',
 	        searchParams: {
-	            userId: userId
+	            userId: userId,
+	            currency:"XJK,JF"
 	        }
 	    });
 	

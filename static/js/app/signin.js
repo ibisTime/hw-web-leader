@@ -62,6 +62,36 @@ $.fn.serializeObject = function() {
     });
     return o;
 };
+//密码强度
+function calculateSecurityLevel(password){
+    var strength_L = 0;
+    var strength_M = 0;
+    var strength_H = 0;
+
+    for (var i = 0; i < password.length; i++) {
+        var code = password.charCodeAt(i);
+        // 数字
+        if (code >= 48 && code <= 57) {
+            strength_L++;
+            // 小写字母 大写字母
+        } else if ((code >= 65 && code <= 90) || (code >= 97 && code <= 122)) {
+            strength_M++;
+            // 特殊符号
+        } else if ((code >= 32 && code <= 47) || (code >= 58 && code <= 64) || (code >= 94 && code <= 96) || (code >= 123 && code <= 126)) {
+            strength_H++;
+        }
+    }
+    // 弱
+    if ((strength_L == 0 && strength_M == 0) || (strength_L == 0 && strength_H == 0) || (strength_M == 0 && strength_H == 0)) {
+        return "1";
+    }
+    // 强
+    if (0 != strength_L && 0 != strength_M && 0 != strength_H) {
+        return "3";
+    }
+    // 中
+    return "2";
+}
 
 $(function() {
 	
@@ -88,6 +118,7 @@ $(function() {
     var mySwiper = new Swiper('.swiper-container', {
         spaceBetween: 0,
         //effect : 'flip',
+        initialSlide: '1',
         observer: true,
         observeParents: true,
         threshold: 30,
@@ -110,11 +141,6 @@ $(function() {
     	$('#area').chosen({ search_contains: true, allow_single_deselect: true });
     },10)
     
-    // 登录
-    $('#registerBtn').click(function() {
-        mySwiper.slideNext();
-    });
-
     $('#smsBtn').on('click', function() {
         if (!$('#mobile').val()) {
             toastr.info('请输入手机号');
@@ -196,13 +222,87 @@ $(function() {
 				sync: true
 	        }).done(function(data) {
 	        	toastr.success('申请成功');
-	        	mySwiper.slidePrev();
+	        	mySwiper.slideTo(0)
 	        });
         }
     });
     
-    $('#goLoginBtn').on('click', function() {
-    	mySwiper.slidePrev();
+    var _finPwdForm = $("#finPwdForm");
+        _finPwdForm.validate({
+            'rules': {
+                mobile: {
+                    required: true,
+                    mobile: true
+                },
+                smsCaptcha: {
+                    required: true,
+                    "sms": true
+                },
+                newLoginPwd: {
+                    required: true,
+                    maxlength: 16,
+                    minlength: 6,
+                    isNotFace: true
+                },
+                rePwd: {
+                    required: true,
+                    equalTo: "#newLoginPwd"
+                }
+            },
+            onkeyup: false
+        });
+        
+        
+    $('#finPwdForm-smsBtn').on('click', function() {
+        if (!$('#finPwdForm-mobile').val()) {
+            toastr.info('请输入手机号');
+        } else {
+            $('#finPwdForm-smsBtn').prop('disabled', true);
+            reqApi({
+	            code: '805950',
+	            json: {
+	            	bizType:'805063',
+	            	mobile:$('#finPwdForm-mobile').val(),
+	            	kind:'OL'
+	            },
+				sync: true
+	        }).then(function(data) {
+	        	$('#finPwdForm-smsBtn').prop('disabled', false);
+                count($('#finPwdForm-smsBtn'), 60);
+	        },function(){
+	        	$('#finPwdForm-smsBtn').prop('disabled', false);
+	        })
+        }
+    });   
+    $('#finPwdBtn').on('click', function() {
+        if(_finPwdForm.valid()){
+        	var param = _finPwdForm.serializeObject()
+        	param.loginPwdStrength = calculateSecurityLevel(param.newLoginPwd)
+        	param.kind = "OL";
+			reqApi({
+	            code: '805063',
+	            json: param,
+				sync: true
+	        }).done(function(data) {
+	        	toastr.success('找回成功');
+	        	mySwiper.slideTo(0)
+	        });
+        }
+    });
+    
+    // 注册
+    $('#registerBtn').click(function() {
+        mySwiper.slideTo(2)
+    });
+    
+    //找回密码
+    $('#goFinPwdBtn').on('click', function() {
+    	mySwiper.slideTo(1)
+    });
+    
+    //返回
+    $('.goLoginBtn').on('click', function() {
+    	mySwiper.slideTo(0)
     });
 	
 
