@@ -118,7 +118,6 @@ $(function() {
     var mySwiper = new Swiper('.swiper-container', {
         spaceBetween: 0,
         //effect : 'flip',
-        initialSlide: '1',
         observer: true,
         observeParents: true,
         threshold: 30,
