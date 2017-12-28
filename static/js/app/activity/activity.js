@@ -68,13 +68,14 @@ $(function() {
         },
     });
     
+    var timestamp = new Date().getTime()
     $('.tools .toolbar').html('<li style="display:block;" id="addBtn"><span><img src="/static/images/t01.png"></span>新增</li>'+
     						'<li style="display:block;" id="editBtn"><span><img src="/static/images/t01.png"></span>修改</li>'+
     						'<li style="display:block;" id="deleteBtn"><span><img src="/static/images/t01.png"></span>删除</li>'+
     						'<li style="display:block;" id="detailBtn"><span><img src="/static/images/t01.png"></span>详情</li>');
 
 	$("#addBtn").on('click', function(){
-		window.location.href = "activity_addedit.html";
+		window.location.href = "activity_addedit.html?timestamp="+timestamp;
 	})
 	
 	$("#editBtn").on('click', function(){
@@ -84,7 +85,12 @@ $(function() {
             return;
         }
         
-		window.location.href = "activity_addedit.html?code="+selRecords[0].code;
+        if(selRecords[0].status != "0" && selRecords[0].status != "2" ){
+            toastr.info("活动不是可修改的状态");
+            return;
+        }
+        
+		window.location.href = "activity_addedit.html?code="+selRecords[0].code+"&timestamp="+timestamp;
 	})
 	
 	$("#detailBtn").on('click', function(){
@@ -94,7 +100,7 @@ $(function() {
             return;
         }
         
-		window.location.href = "activity_detail.html?code="+selRecords[0].code;
+		window.location.href = "activity_detail.html?code="+selRecords[0].code+"&timestamp="+timestamp;
 	})
 	
 	$('#deleteBtn').click(function() {

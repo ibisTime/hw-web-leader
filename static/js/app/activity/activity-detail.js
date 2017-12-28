@@ -48,6 +48,9 @@ $(function() {
         field: 'groupNum',
         title: '最少成行人数'
     }, {
+        field: 'groupNumMax',
+        title: '最大成行人数',
+    }, {
         field: 'amount',
         title: '收费金额',
         formatter: moneyFormat,
@@ -96,27 +99,22 @@ $(function() {
         field: 'description',
         title: '活动介绍',
         type: 'textarea',
-        normalArea: true
     }, {
         field: 'placeDesc',
         title: '地方介绍',
         type: 'textarea',
-        normalArea: true
     }, {
         field: 'amountDesc',
         title: '费用介绍',
         type: 'textarea',
-        normalArea: true
     }, {
         field: 'scheduling',
         title: '具体行程',
         type: 'textarea',
-        normalArea: true
     }, {
         field: 'equipment',
         title: '装备建议',
         type: 'textarea',
-        normalArea: true
     }, {
         field: 'status',
         title: '状态',

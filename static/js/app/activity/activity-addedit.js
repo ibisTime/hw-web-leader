@@ -20,7 +20,6 @@ $(function() {
     }, {
         field: 'slogan',
         title: '广告语',
-        required: true,
     }, {
         title: '活动时间',
         formatter: dateFormatData,
@@ -65,6 +64,9 @@ $(function() {
         title: '最少成行人数',
         required: true,
     }, {
+        field: 'groupNumMax',
+        title: '最大成行人数',
+    }, {
         field: 'amount',
         title: '收费金额',
         amount: true,
@@ -96,31 +98,26 @@ $(function() {
         field: 'description',
         title: '活动介绍',
         type: 'textarea',
-        normalArea: true,
         required: true,
     }, {
         field: 'placeDesc',
         title: '地方介绍',
         type: 'textarea',
-        normalArea: true,
         required: true,
     }, {
         field: 'amountDesc',
         title: '费用介绍',
         type: 'textarea',
-        normalArea: true,
         required: true,
     }, {
         field: 'scheduling',
         title: '具体行程',
         type: 'textarea',
-        normalArea: true,
         required: true,
     }, {
         field: 'equipment',
         title: '装备建议',
         type: 'textarea',
-        normalArea: true,
         required: true,
     }];
 
