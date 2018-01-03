@@ -35,6 +35,7 @@ $(function() {
         title: '报名截止时间',
         formatter: dateFormatData,
         type : 'date',
+        dataformat1: true,
         minDate: minDate,
         required: true,
     },{

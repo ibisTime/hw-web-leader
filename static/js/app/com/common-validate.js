@@ -156,6 +156,13 @@ $.validator.addMethod("minAmount", function(value, element) {
 }, '金额必须>0，且小数点后最多1位');
 
 
+//日期格式验证 YYYY-MM-dd
+$.validator.addMethod("dataformat1", function(value, element) {
+    return this.optional(element) || /^(\d{4})-(\d{2})-(\d{2})$/.test(value);
+}, '请输入合法的日期');
+
+
+
 //ie6兼容after
 var $beforeAfter = function(dom) {
     if (document.querySelector || !dom && dom.nodeType !== 1) return;
