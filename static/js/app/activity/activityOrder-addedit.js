@@ -175,10 +175,31 @@ $(function() {
         formatter: dateTimeFormat,
         readonly: true
     }, {
+        field: 'totalAmount1',
+        title: '总额',
+        formatter: function(v, data) {
+            return v!=''&&v?"￥"+moneyFormat(v):'￥0'
+        },
+        readonly: true
+    }, {
+        field: 'pAmount',
+        title: '商品金额',
+        formatter: function(v, data) {
+            return v!=''&&v?"￥"+moneyFormat(v):'￥0'
+        },
+        readonly: true
+    }, {
+        field: 'rpAmount',
+        title: '租赁商品金额',
+        formatter: function(v, data) {
+            return v!=''&&v?"￥"+moneyFormat(v)+"(含押金:￥"+moneyFormat(data.depRpAmount)+")":'￥0'
+        },
+        readonly: true
+    }, {
         field: 'payAmount1',
         title: '实际支付总额',
         formatter: function(v, data) {
-            return "￥"+moneyFormat(v)
+            return v!=''&&v?"￥"+moneyFormat(v):'￥0'
         },
         readonly: true
     }, {

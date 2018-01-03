@@ -62,10 +62,12 @@ $(function() {
     }, {
         field: 'groupNum',
         title: '最少成行人数',
+        number: true,
         required: true,
     }, {
         field: 'groupNumMax',
         title: '最大成行人数',
+        number: true,
     }, {
         field: 'amount',
         title: '收费金额',

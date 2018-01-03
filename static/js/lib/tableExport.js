@@ -18,7 +18,7 @@
                 displayTableName: false,
                 escape: false,
                 excelstyles: [], // e.g. ['border-bottom', 'border-top', 'border-left', 'border-right']
-                fileName: '表格导出',
+                fileName: 'export',
                 htmlContent: false,
                 ignoreColumn: [],
                 ignoreRow: [],

@@ -72,7 +72,9 @@ $(function() {
     $('.tools .toolbar').html('<li style="display:block;" id="addBtn"><span><img src="/static/images/t01.png"></span>新增</li>'+
     						'<li style="display:block;" id="editBtn"><span><img src="/static/images/t01.png"></span>修改</li>'+
     						'<li style="display:block;" id="deleteBtn"><span><img src="/static/images/t01.png"></span>删除</li>'+
-    						'<li style="display:block;" id="detailBtn"><span><img src="/static/images/t01.png"></span>详情</li>');
+    						'<li style="display:block;" id="detailBtn"><span><img src="/static/images/t01.png"></span>详情</li>' +
+    						'<li style="display:block;" id="upBtn"><span><img src="/static/images/t01.png"></span>发布</li>' +
+    						'<li style="display:block;" id="querySignInBtn"><span><img src="/static/images/t01.png"></span>报名查询</li>');
 
 	$("#addBtn").on('click', function(){
 		window.location.href = "activity_addedit.html?timestamp="+timestamp;
@@ -128,5 +130,47 @@ $(function() {
         }, function() {});
 
     });
+    
+    //报名查询
+    $("#querySignInBtn").on('click', function(){
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+        
+        if(selRecords[0].status == "0"){
+            toastr.info("活动状态不可查询");
+            return;
+        }
+        
+		window.location.href = "activitySignInQuery.html?code="+selRecords[0].code+"&timestamp="+timestamp;
+	})
 	
+	//发布活动
+	$('#upBtn').click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+        
+        if (selRecords[0].status != "0") {
+            toastr.info("活动不是可发布的状态");
+            return;
+        }
+        
+        confirm("确认是否发布该活动？").then(function() {
+
+            reqApi({ 
+            	code: '808703',
+            	json: {
+            		code: selRecords[0].code,
+            	}}).done(function(data) {
+	                sucList();
+	            });
+	            
+        }, function() {});
+
+    });
 });

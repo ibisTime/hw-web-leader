@@ -3606,7 +3606,7 @@ $(function() {
         clearTimeout(validTimer);
         validTimer = setTimeout(function() {
             sessionStorage.setItem('token', '');
-            location.href = '../signin.html?kind=' + sessionStorage.getItem('loginKind');
+            location.href = '../signin.html';
         }, +OSS.userValidTime * 60 * 1000);
     });
 });
