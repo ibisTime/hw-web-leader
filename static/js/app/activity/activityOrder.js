@@ -64,7 +64,7 @@ $(function() {
         },
     });
     
-//  $('.tools .toolbar').html('<li style="display:block;" id="detailBtn"><span><img src="/static/images/t01.png"></span>详情</li>');
+    $('.tools .toolbar').html('<li style="display:block;" id="detailBtn"><span><img src="/static/images/t01.png"></span>详情</li>');
     
     //详情
     $("#detailBtn").click(function() {
@@ -73,10 +73,15 @@ $(function() {
             toastr.warning("请选择记录");
             return;
         };
-        var orderData = selRecords[0].orderData?"1":"";
+	    var orderData = selRecords[0].orderData?"1":"";
 	    var rorderList = selRecords[0].rorderList?"1":"";
+	    var toUser = '';
+	    if(orderData=='1'&&rorderList=='1'){
+	    	toUser = orderData=='1'?selRecords[0].orderData.toUser:selRecords[0].rorderList[0].takeStore;
+	    }
 	    
-    	window.location.href = "activityOrder_addedit.html?code=" + selRecords[0].code+"&orderData="+orderData+"&rorderList="+rorderList;
+    	window.location.href = "activityOrder_addedit.html?code=" + selRecords[0].code+"&orderData="+orderData
+    					+"&rorderList="+rorderList+"&toUser="+toUser+"&amount="+selRecords[0].activity.amountType;
     });
 
 });

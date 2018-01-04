@@ -3,6 +3,9 @@ $(function() {
     var code = getQueryString('code');
     var orderData = !!getQueryString('orderData');
     var rorderList = !!getQueryString('rorderList');
+    var toUser = getQueryString('toUser');
+    var amountType = getQueryString('amount');
+    amountType = amountType=='0'?true:false
     
     var addressFields =[]
     var orderDataFields =[]
@@ -21,7 +24,7 @@ $(function() {
 	        _keys: ['orderData','productOrderList'],
 	        columns: [{
 	            title: "订单编号",
-	            field: "code"
+	            field: "orderCode"
 	        }, {
 	            title: "商品名称",
 	            field: "name",
@@ -66,7 +69,7 @@ $(function() {
 	        }, {
 	            title: "租赁日期",
 	            field: "bookDatetime",
-	            formatter: dateTimeFormat,
+	            formatter: dateFormatData,
 	        }, {
 	            title: "租赁天数",
 	            field: "rentDay"
@@ -80,71 +83,100 @@ $(function() {
                     return "￥"+moneyFormat(v)
 	            }
 	        }, {
-	            title: "数量",
-	            field: "quantity"
-	        }, {
-	            title: "运费",
-	            field: "yunfei",
+	            title: "押金",
+	            field: "realDeposit",
 	            formatter: function(v, data) {
                     return "￥"+moneyFormat(v)
 	            }
+	        }, {
+	            title: "数量",
+	            field: "quantity"
 	        }]
 	    }];
     }
     
     //有选择商品时地址取商品订单，只有租赁时取租赁
     if(orderData){
-    	addressFields = [{
-	        title: "收货地址",
-	        type: "title"
-	    }, {
-	        field: 'receiver',
-	        title: '收件人',
-	        readonly: true,
-            formatter: function(v, data) {
-                return data.orderData.receiver
-            }
-	    }, {
-	        field: 'reMobile',
-	        title: '联系方式',
-	        readonly: true,
-            formatter: function(v, data) {
-                return data.orderData.reMobile
-            }
-	    }, {
-	        field: 'reAddress',
-	        title: '收货地址',
-	        readonly: true,
-            formatter: function(v, data) {
-                return data.orderData.reAddress
-            }
-	    }]
+    	if(toUser==OSS.SYS_USER){
+    		addressFields = [{
+		        title: "收货地址",
+		        type: "title"
+		    }, {
+		        field: 'receiver',
+		        title: '收件人',
+		        readonly: true,
+	            formatter: function(v, data) {
+	                return data.orderData.receiver
+	            }
+		    }, {
+		        field: 'reMobile',
+		        title: '联系方式',
+		        readonly: true,
+	            formatter: function(v, data) {
+	                return data.orderData.reMobile
+	            }
+		    }, {
+		        field: 'reAddress',
+		        title: '收货地址',
+		        readonly: true,
+	            formatter: function(v, data) {
+	                return data.orderData.reAddress
+	            }
+		    }]
+    	}else{
+    		addressFields = [{
+		        title: "自提地址",
+		        type: "title"
+		    }, {
+		        field: 'reAddress',
+		        title: '自提地址',
+		        readonly: true,
+	            formatter: function(v, data) {
+	                return data.orderData.takeAddress
+	            }
+		    }]
+    	}
     }else if(rorderList){
-    	addressFields = [{
-	        title: "收货地址",
-	        type: "title"
-	    }, {
-	        field: 'receiver',
-	        title: '收件人',
-	        readonly: true,
-            formatter: function(v, data) {
-                return data.rorderList.receiver
-            }
-	    }, {
-	        field: 'reMobile',
-	        title: '联系方式',
-	        readonly: true,
-            formatter: function(v, data) {
-                return data.rorderList.reMobile
-            }
-	    }, {
-	        field: 'reAddress',
-	        title: '收货地址',
-	        readonly: true,
-            formatter: function(v, data) {
-                return data.rorderList.reAddress
-            }
-	    }]
+    	
+    	if(toUser==OSS.SYS_USER){
+	    	addressFields = [{
+		        title: "收货地址",
+		        type: "title"
+		    }, {
+		        field: 'receiver',
+		        title: '收件人',
+		        readonly: true,
+	            formatter: function(v, data) {
+	                return data.rorderList[0].receiver
+	            }
+		    }, {
+		        field: 'reMobile',
+		        title: '联系方式',
+		        readonly: true,
+	            formatter: function(v, data) {
+	                return data.rorderList[0].reMobile
+	            }
+		    }, {
+		        field: 'reAddress',
+		        title: '收货地址',
+		        readonly: true,
+	            formatter: function(v, data) {
+	                return data.rorderList[0].reAddress
+	            }
+		    }]
+	    }else{
+    		addressFields = [{
+		        title: "自提地址",
+		        type: "title"
+		    }, {
+		        field: 'reAddress',
+		        title: '自提地址',
+		        readonly: true,
+	            formatter: function(v, data) {
+	                return data.rorderList[0].takeAddress
+	            }
+		    }]
+    	}
     }
     
     
@@ -163,7 +195,7 @@ $(function() {
         field: 'mobile',
         readonly: true,
         formatter: function(v, data) {
-            return data.user.mobile;
+            return data.user.nickname+"("+data.user.mobile+")";
         }
     }, {
         title: "下单说明",
@@ -203,13 +235,6 @@ $(function() {
         },
         readonly: true
     }, {
-        title: "运费",
-        field: "totalYunfei",
-        formatter: function(v, data) {
-            return "￥"+moneyFormat(v)
-        },
-        readonly: true
-    }, {
         field: 'payType',
         title: '买单方式',
         key: 'pay_type',
@@ -220,6 +245,16 @@ $(function() {
         title: '支付时间',
         formatter: dateTimeFormat,
         readonly: true
+    }, {
+        title: "运输方式",
+        field: "orderToUser",
+        formatter: function(v, data) {
+        	if(toUser == OSS.SYS_USER){
+        		return '邮寄'
+        	}else{
+        		return '自提'
+        	}
+        }
     }, {
         field: 'remark',
         title: '备注',
@@ -235,6 +270,12 @@ $(function() {
         },
         readonly: true,
     }, {
+        field: "leaderMobile",
+        title: "领队",
+        formatter: function(v, data) {
+            return data.leadUser.outName+"("+data.leadUser.mobile+")";
+        }
+    },{
         field: 'actAmount',
         title: '费用',
         formatter: function(v, data) {
@@ -269,6 +310,42 @@ $(function() {
             return data.activity.placeAsse;
         },
         readonly: true,
+    },{
+        title: "下单人信息",
+        type: "title",
+        hidden: amountType,
+    },{
+        title: '户外昵称',
+        field: 'outName',
+        readonly: true,
+        hidden: amountType,
+        formatter: function(v, data) {
+            return data.user.outName;
+        }
+    },{
+        title: '联系电话',
+        field: 'usermobile',
+        readonly: true,
+        hidden: amountType,
+        formatter: function(v, data) {
+            return data.user.mobile;
+        }
+    },{
+        title: '真实姓名',
+        field: 'realName',
+        readonly: true,
+        hidden: amountType,
+        formatter: function(v, data) {
+            return data.user.realName;
+        }
+    },{
+        title: '身份证号',
+        field: 'idNo',
+        readonly: true,
+        hidden: amountType,
+        formatter: function(v, data) {
+            return data.user.idNo;
+        }
     }];
 	
 	fields = fields.concat(orderDataFields)
