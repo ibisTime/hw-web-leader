@@ -3991,4 +3991,9 @@
       <district name="高雄市" zipcode="999079" />
     </city>
   </province>
+  <province name="其他">
+    <city name="其他">
+      <district name="其他" zipcode="" />
+    </city>
+  </province>
 </root>

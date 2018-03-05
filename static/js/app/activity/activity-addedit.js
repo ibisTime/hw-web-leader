@@ -2,6 +2,7 @@ $(function() {
 
     var code = getQueryString('code');
     var view = !!getQueryString('v');
+    var isCopy = !!getQueryString('iscopy');//是否是复制新增
     var d = new Date();
     d.setDate(d.getDate());
     var minDate = d.format('yyyy-MM-dd');
@@ -24,7 +25,6 @@ $(function() {
         title: '活动时间',
         formatter: dateFormatData,
         field1: 'startDatetime',
-        title1: '审核时间',
         field2: 'endDatetime',
         minDate: minDate,
         type : 'date',
@@ -87,7 +87,7 @@ $(function() {
         required: true,
     }, {
         field: 'indexQd',
-        title: '强度系数',
+        title: '风景系数',
         type: 'start',
     }, {
         field: 'indexNd',
@@ -128,13 +128,32 @@ $(function() {
         fields: fields,
         code: code,
         addCode:'808700',
-        editCode:'808702',
+        editCode: isCopy?'808700':'808702',
         detailCode: '808706',
         view: view,
         beforeSubmit: function(data){
+        	if(isCopy){
+        		delete data.code
+        	}
         	data.userId = getUserId();
         	return data;
         }
     });
+    
+    if(isCopy){
+    	clearTime();
+    }
+    
+    function clearTime(){
+    	setTimeout(function(){
+	    	if($("#startDatetime").val()){
+		    	$("#startDatetime").val("")
+		    	$("#endDatetime").val("")
+		    	$("#enrollEndDatetime").val("")
+		    }else{
+		    	clearTime();
+		    }
+	    },100)
+    }
 
 });

@@ -67,7 +67,7 @@ $(function() {
         required: true,
     }, {
         field: 'indexQd',
-        title: '强度系数',
+        title: '风景系数',
         formatter: function(v, data){
         	var start = ''
         	for (var i=1; i<=v; i++) {

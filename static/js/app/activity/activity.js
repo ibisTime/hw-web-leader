@@ -70,6 +70,7 @@ $(function() {
     
     var timestamp = new Date().getTime()
     $('.tools .toolbar').html('<li style="display:block;" id="addBtn"><span><img src="/static/images/t01.png"></span>新增</li>'+
+    						'<li style="display:block;" id="copyBtn"><span><img src="/static/images/t01.png"></span>复制新增</li>'+
     						'<li style="display:block;" id="editBtn"><span><img src="/static/images/t01.png"></span>修改</li>'+
     						'<li style="display:block;" id="deleteBtn"><span><img src="/static/images/t01.png"></span>删除</li>'+
     						'<li style="display:block;" id="detailBtn"><span><img src="/static/images/t01.png"></span>详情</li>' +
@@ -95,6 +96,17 @@ $(function() {
 		window.location.href = "activity_addedit.html?code="+selRecords[0].code+"&timestamp="+timestamp;
 	})
 	
+	//复制新增
+	$("#copyBtn").on('click', function(){
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+        
+		window.location.href = "activity_addedit.html?iscopy=1&code="+selRecords[0].code+"&timestamp="+timestamp;
+	})
+	
 	$("#detailBtn").on('click', function(){
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
@@ -105,7 +117,7 @@ $(function() {
 		window.location.href = "activity_detail.html?code="+selRecords[0].code+"&timestamp="+timestamp;
 	})
 	
-	$('#deleteBtn').click(function() {
+	$('#deleteBtn').on('click', function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
             toastr.info("请选择记录");
@@ -148,7 +160,7 @@ $(function() {
 	})
 	
 	//发布活动
-	$('#upBtn').click(function() {
+	$('#upBtn').on('click', function() {
         var selRecords = $('#tableList').bootstrapTable('getSelections');
         if (selRecords.length <= 0) {
             toastr.info("请选择记录");
