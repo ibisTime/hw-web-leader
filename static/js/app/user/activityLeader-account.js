@@ -2,12 +2,22 @@ $(function() {
     var userId = getUserId();
     var fromUserId = '';
     
-    reqApi({
-        code: '805121',
-        json: { "userId": userId },
-        sync: true
-    }).done(function(data) {
+    $.when(
+    	reqApi({
+	        code: '805121',
+	        json: { "userId": userId },
+	        sync: true
+	    }),
+	    reqApi({
+            code: '802027',
+            json: {
+            	key:'XJK2JF'
+            },
+			sync: true
+	    })
+    ).done(function(data, rateData) {
     	fromUserId = data.cuserId 
+    	var rate = '1小金库兑换'+rateData.cvalue+'积分';
     	
     	var columns = [{
 	        field: '',
@@ -55,8 +65,8 @@ $(function() {
 	    });
 	
 	    $('.tools .toolbar').html('<li style="display:block;" id="ledgerBtn"><span><img src="/static/images/t01.png"></span>查看明细</li>'
-	    				+'<li style="display:block;" id="transferAccountsBtn"><span><img src="/static/images/t01.png"></span>转账</li>');
-	//  				+'<li style="display:block;" id="goBackBtn"><span><img src="/static/images/t01.png"></span>返回</li>');
+	    				+'<li style="display:block;" id="transferAccountsBtn"><span><img src="/static/images/t01.png"></span>转账</li>'
+	    				+'<li style="display:block;" id="JFTransferXJK"><span><img src="/static/images/t01.png"></span>积分转小金库</li>');
 		
 		//查看明细
 	    $('#ledgerBtn').click(function() {
@@ -129,7 +139,63 @@ $(function() {
 	        dw.__center();
 	        
 	    })
-    
+    	
+    	//积分转小金库
+    	$("#JFTransferXJK").click(function(){
+    		var dw = dialog({
+	    		fixed: true,
+	            content: '<form class="pop-form" id="popForm" novalidate="novalidate">' +
+	                '<ul class="form-info" id="formContainer"><li class="pop-form-title">积分转为小金库</li></ul>' +
+	                '</form>'
+	        });
+	
+	        dw.showModal();
+	        buildDetail({
+	            container: $('#formContainer'),
+	            fields: [{
+			        field: 'changeRate',
+			        title: '转换比例',
+			        value: rate,
+	                readonly: true
+    			}, {
+			        field: 'amount1',
+			        title: '金额',
+	                amount: true,
+	                required: true
+			    }],
+	            buttons: [{
+	                title: '确定',
+	        		field: 'confirm',
+	                handler: function() {
+	                    if ($('#popForm').valid()) {
+	                        var popFormData = $('#popForm').serializeObject();
+	                		var data={};
+	                		
+	                		data.amount = popFormData.amount1;
+	                		data.fromUserId = userId
+	                		data.fromCurrency = 'JF';
+	                		data.toUserId = userId;
+	                		data.toCurrency = 'XJK';
+	                		
+			                reqApi({
+			                    code: '802413',
+			                    json: data
+			                }).done(function(data) {
+	                    		dw.close().remove();
+	                            sucList()
+			                });
+	                    }
+	                }
+	            }, {
+	                title: '取消',
+	        		field: 'cancel',
+	                handler: function() {
+	                    dw.close().remove();
+	                }
+	            }]
+	        });
+	        dw.__center();
+    	});
     	
     	
     });
