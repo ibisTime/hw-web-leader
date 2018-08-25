@@ -8,7 +8,6 @@ $(function() {
         title: '币种',
         type: 'select',
         key: 'currency',
-
         formatter: Dict.getNameForList("currency"),
         search: true
     }
@@ -30,7 +29,6 @@ $(function() {
             title: '币种',
             type: 'select',
             key: 'currency',
-
             formatter: Dict.getNameForList("currency"),
         }
 

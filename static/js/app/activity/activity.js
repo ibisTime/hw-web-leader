@@ -75,6 +75,7 @@ $(function() {
     						'<li style="display:block;" id="deleteBtn"><span><img src="/static/images/t01.png"></span>删除</li>'+
     						'<li style="display:block;" id="detailBtn"><span><img src="/static/images/t01.png"></span>详情</li>' +
     						'<li style="display:block;" id="upBtn"><span><img src="/static/images/t01.png"></span>发布</li>' +
+    						'<li style="display:block;" id="cancelBtn"><span><img src="/static/images/t01.png"></span>取消活动</li>' +
     						'<li style="display:block;" id="querySignInBtn"><span><img src="/static/images/t01.png"></span>报名查询</li>');
 
 	$("#addBtn").on('click', function(){
@@ -183,6 +184,62 @@ $(function() {
 	            });
 	            
         }, function() {});
+
+    });
+    
+    // 取消
+    $('#cancelBtn').click(function() {
+        var selRecords = $('#tableList').bootstrapTable('getSelections');
+        if (selRecords.length <= 0) {
+            toastr.info("请选择记录");
+            return;
+        }
+
+//      if (selRecords[0].status != 1) {
+//          toastr.info("不是可取消的状态");
+//          return;
+//      }
+        
+        var dw = dialog({
+            content: '<form class="pop-form" id="popForm" novalidate="novalidate">' +
+                '<ul class="form-info" id="formContainer"><li style="text-align:center;font-size: 15px;">取消活动</li></ul>' +
+                '</form>'
+        });
+
+        dw.showModal();
+
+        buildDetail({
+            container: $('#formContainer'),
+            fields: [{
+                field: 'remark',
+                title: '备注',
+                value: selRecords[0].remark ? selRecords[0].remark : '',
+                required: true,
+            }],
+            buttons: [{
+                title: '确定',
+                handler: function() {
+                    if ($('#popForm').valid()) {
+                        var data = $('#popForm').serializeObject();
+                        data.actCode = selRecords[0].code;
+                        reqApi({
+                            code: '808724',
+                            json: data
+                        }).done(function(data) {
+                            dw.close().remove();
+                            sucList()
+                        });
+                    }
+                }
+            }, {
+                title: '取消',
+                handler: function() {
+                    dw.close().remove();
+                }
+            }]
+        });
+
+        dw.__center();
 
     });
 });

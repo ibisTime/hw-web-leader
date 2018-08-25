@@ -116,6 +116,35 @@ $(function() {
         title: '装备建议',
         type: 'textarea',
     }, {
+        field: 'cornerPic',
+        title: '角标图片',
+        type: "img",
+		single: true
+    }, {
+        field: 'wxGroupQrcode',
+        title: '微信群二维码',
+        type: "img",
+		single: true
+    }, {
+        field: 'customKey1',
+        title: '自定义文本框名称1',
+    }, {
+        field: 'customKey2',
+        title: '自定义文本框名称2',
+    }, {
+        field: 'customKey3',
+        title: '自定义文本框名称3',
+    }, {
+        field: 'customKey4',
+        title: '自定义文本框名称4',
+    }, {
+        field: 'customKey5',
+        title: '自定义文本框名称5',
+    }, {
+        field: 'platformAdv',
+        title: '广告',
+        type: 'textarea',
+    }, {
         field: 'status',
         title: '状态',
         type: 'select',
