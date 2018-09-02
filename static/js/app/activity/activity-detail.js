@@ -17,15 +17,15 @@ $(function() {
     }, {
         field: 'startDatetime',
         title: '开始时间',
-        formatter: dateFormatData,
+        formatter: dateTimeFormat,
     },{
         field: 'endDatetime',
         title: '结束时间',
-        formatter: dateFormatData,
+        formatter: dateTimeFormat,
     },{
         field: 'enrollEndDatetime',
         title: '报名截止时间',
-        formatter: dateFormatData,
+        formatter: dateTimeFormat,
     },{
         field: 'placeDestProvince',
         title: '目的地所在市',

@@ -46,11 +46,11 @@ $(function() {
     }, {
         field: 'enrollEndDatetime',
         title: '报名截止时间',
-        formatter: dateFormatData,
+        formatter: dateTimeFormat,
     },{
     	field: 'startDatetime',
         title: '开始时间',
-        formatter: dateFormatData,
+        formatter: dateTimeFormat,
     },{
         field: 'updateDatetime',
         title: '更新时间',

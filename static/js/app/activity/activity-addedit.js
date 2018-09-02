@@ -23,18 +23,18 @@ $(function() {
         title: '广告语',
     }, {
         title: '活动时间',
-        formatter: dateFormatData,
+        formatter: dateTimeFormat,
         field1: 'startDatetime',
         field2: 'endDatetime',
         minDate: minDate,
-        type : 'date',
+        type : 'datetime',
         twoDate: true,
         required: true,
     },{
         field: 'enrollEndDatetime',
         title: '报名截止时间',
-        formatter: dateFormatData,
-        type : 'date',
+        formatter: dateTimeFormat,
+        type : 'datetime',
         dataformat1: true,
         minDate: minDate,
         required: true,
@@ -172,6 +172,9 @@ $(function() {
     if(isCopy){
     	clearTime();
     }
+    
+    $("#startDatetime").parent("li").append("<p style='padding-left: 194px; color: red; font-size: 12px; margin-top: 10px;'>截止时间请务必在当前时间一小时后，并且只要小时，分钟和秒设置为零</P>")
+    $("#enrollEndDatetime").parent("li").append("<p style='padding-left: 194px; color: red; font-size: 12px; margin-top: 10px;'>截止时间请务必在当前时间一小时后，并且只要小时，分钟和秒设置为零</P>")
     
     function clearTime(){
     	setTimeout(function(){
