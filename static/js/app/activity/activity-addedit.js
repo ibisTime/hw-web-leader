@@ -123,11 +123,6 @@ $(function() {
         type: 'textarea',
         required: true,
     }, {
-        field: 'cornerPic',
-        title: '角标图片',
-        type: "img",
-		single: true
-    }, {
         field: 'wxGroupQrcode',
         title: '微信群二维码',
         type: "img",
@@ -147,10 +142,6 @@ $(function() {
     }, {
         field: 'customKey5',
         title: '自定义文本框名称5',
-    }, {
-        field: 'platformAdv',
-        title: '广告',
-        type: 'textarea',
     }];
 
     buildDetail({
@@ -173,8 +164,8 @@ $(function() {
     	clearTime();
     }
     
-    $("#startDatetime").parent("li").append("<p style='padding-left: 194px; color: red; font-size: 12px; margin-top: 10px;'>截止时间请务必在当前时间一小时后，并且只要小时，分钟和秒设置为零</P>")
-    $("#enrollEndDatetime").parent("li").append("<p style='padding-left: 194px; color: red; font-size: 12px; margin-top: 10px;'>截止时间请务必在当前时间一小时后，并且只要小时，分钟和秒设置为零</P>")
+    $("#startDatetime").parent("li").append("<p style='padding-left: 194px; color: red; font-size: 12px; margin-top: 10px;'>时间请务必在当前时间一小时后，并且只要小时，分钟和秒设置为零</P>")
+    $("#enrollEndDatetime").parent("li").append("<p style='padding-left: 194px; color: red; font-size: 12px; margin-top: 10px;'>时间请务必在当前时间一小时后，并且只要小时，分钟和秒设置为零</P>")
     
     function clearTime(){
     	setTimeout(function(){
